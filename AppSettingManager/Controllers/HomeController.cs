@@ -1,5 +1,6 @@
 ﻿using AppSettingManager.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,18 @@ namespace AppSettingManager.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IConfiguration _config;
+        public HomeController(ILogger<HomeController> logger,IConfiguration config)
         {
             _logger = logger;
+            _config = config;   
         }
 
         public IActionResult Index()
         {
+            ViewBag.SendGridKey = _config.GetValue<string>("SendGridKey");
+            ViewBag.TwilioAuthToken = _config.GetValue<string>("Twilio:AuthToken");
+            ViewBag.TwilioAccountSid = _config.GetValue<string>("Twilio:AccountSid");
             return View();
         }
 
