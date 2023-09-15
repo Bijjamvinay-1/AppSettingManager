@@ -25,6 +25,8 @@ namespace AppSettingManager.Controllers
             ViewBag.SendGridKey = _config.GetValue<string>("SendGridKey");
             ViewBag.TwilioAuthToken = _config.GetSection("Twilio").GetValue<string>("AuthToken");
             ViewBag.TwilioAccountSid = _config.GetValue<string>("Twilio:AccountSid");
+            ViewBag.ThirdLevelSettingValue = _config.GetSection("FirstLevelSetting").GetSection("SecondLevelSetting")
+                                           .GetSection("BottomLevelSetting").Value;
             return View();
         }
 
