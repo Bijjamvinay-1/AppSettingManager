@@ -3,6 +3,7 @@ using AppSettingsManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,10 +17,13 @@ namespace AppSettingManager.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
         private TwilioSettings _twilioSettings;
-        public HomeController(ILogger<HomeController> logger,IConfiguration config)
+        private readonly IOptions<TwilioSettings> _twilioOptions;
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, IOptions<TwilioSettings> twilioOptions)
         {
             _logger = logger;
             _config = config;
+            _twilioOptions = twilioOptions;
             _twilioSettings = new TwilioSettings();
             config.GetSection("Twilio").Bind(_twilioSettings);
         }
@@ -32,6 +36,9 @@ namespace AppSettingManager.Controllers
             ViewBag.TwilioPhoneNumber = _twilioSettings.PhoneNumber;
             ViewBag.ThirdLevelSettingValue = _config.GetSection("FirstLevelSetting").GetSection("SecondLevelSetting")
                                            .GetSection("BottomLevelSetting").Value;
+            ViewBag.TwilioAuthToken = _twilioOptions.Value.AuthToken;
+            ViewBag.TwilioAccountSid = _twilioOptions.Value.AccountSid;
+            ViewBag.TwilioPhoneNumber = _twilioOptions.Value.PhoneNumber;
             return View();
         }
 
