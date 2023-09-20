@@ -1,3 +1,4 @@
+using AppSettingManager.Models;
 using AppSettingsManager;
 using AppSettingsManager.Models;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,10 @@ namespace AppSettingManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddConfiguration<TwilioSettings>(Configuration, "Twilio");
+
+            //services.AddConfiguration<SocialLoginSettings>(Configuration, "SocialLoginSettings");
+            //above line is not work because we are using two class names in "SocialLoginSettings"
+            services.Configure<SocialLoginSettings>(Configuration.GetSection("SocialLoginSettings"));
 
             services.Configure<TwilioSettings>(Configuration.GetSection("Twilio"));
             services.AddControllersWithViews();
