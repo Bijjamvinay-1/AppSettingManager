@@ -50,7 +50,7 @@ namespace AppSettingManager.Controllers
             ViewBag.FacebookKey = _socialLoginOptions.Value.FacebookSettings.Key;
             ViewBag.GoogleKey = _socialLoginOptions.Value.GoogleSettings.Key;
             return View();
-            //hjjj
+            //hjjjvvvv
         }
 
         public IActionResult Privacy()
